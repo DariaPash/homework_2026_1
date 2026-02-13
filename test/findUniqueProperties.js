@@ -28,3 +28,55 @@ QUnit.module("Тестируем функцию findUniqueProperties", function(
         assert.deepEqual(result, {}, "Идентичные объекты должны вернуть пустой объект.");
     });
 });
+
+// Дополнительные тесты 
+QUnit.test("Работает с вложенными объектами", function(assert) {
+    const obj1 = { 
+        a: 1, 
+        b: { nested: 2 } 
+    };
+    const obj2 = { 
+        a: 1, 
+        c: { nested: 3 } 
+    };
+    const result = findUniqueProperties(obj1, obj2);
+    
+    assert.deepEqual(result, { 
+        b: { nested: 2 }, 
+        c: { nested: 3 } 
+    }, "Должен корректно обрабатывать вложенные объекты");
+});
+
+QUnit.test("Работает с пустыми объектами", function(assert) {
+    const obj1 = {};
+    const obj2 = { a: 1, b: 2 };
+    const result = findUniqueProperties(obj1, obj2);
+    
+    assert.deepEqual(result, { a: 1, b: 2 }, "Если первый объект пустой, возвращаются все свойства второго");
+    
+    const result2 = findUniqueProperties({ a: 1, b: 2 }, {});
+    assert.deepEqual(result2, { a: 1, b: 2 }, "Если второй объект пустой, возвращаются все свойства первого");
+});
+
+QUnit.test("Работает с разными типами значений", function(assert) {
+    const obj1 = { 
+        num: 42, 
+        str: "hello", 
+        bool: true,
+        nul: null,
+        undef: undefined
+    };
+    const obj2 = { 
+        num: 100, 
+        arr: [1, 2, 3],
+        bool: false
+    };
+    const result = findUniqueProperties(obj1, obj2);
+    
+    assert.deepEqual(result, { 
+        str: "hello", 
+        nul: null,
+        undef: undefined,
+        arr: [1, 2, 3]
+    }, "Должен сохранять типы значений");
+});
