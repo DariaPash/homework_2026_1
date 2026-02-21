@@ -20,7 +20,16 @@
  * @returns {Object} 
  */
 const findUniqueProperties = function(obj1, obj2) {
+    if (obj1 === null || obj2 === null) {
+        throw new TypeError('Arguments cannot be null');
+    }
+    
+    if (typeof obj1 !== 'object' || typeof obj2 !== 'object') {
+        throw new TypeError('Arguments must be objects');
+    }
+    
     const result = {};
+    
     for (let key in obj1) {
         if (Object.prototype.hasOwnProperty.call(obj1, key) && 
             !Object.prototype.hasOwnProperty.call(obj2, key)) {

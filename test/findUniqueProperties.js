@@ -80,3 +80,43 @@ QUnit.test("Работает с разными типами значений", f
         arr: [1, 2, 3]
     }, "Должен сохранять типы значений");
 });
+
+QUnit.test("Должен выбрасывать ошибку при передаче null", function(assert) {
+    assert.throws(
+        () => findUniqueProperties(null, { a: 1 }),
+        TypeError,
+        "Ошибка при передаче null в первом аргументе"
+    );
+    
+    assert.throws(
+        () => findUniqueProperties({ a: 1 }, null),
+        TypeError,
+        "Ошибка при передаче null во втором аргументе"
+    );
+});
+
+QUnit.test("Должен выбрасывать ошибку при передаче не объектов", function(assert) {
+    assert.throws(
+        () => findUniqueProperties(42, { a: 1 }),
+        TypeError,
+        "Ошибка при передаче числа в первом аргументе"
+    );
+    
+    assert.throws(
+        () => findUniqueProperties("string", { a: 1 }),
+        TypeError,
+        "Ошибка при передаче строки в первом аргументе"
+    );
+    
+    assert.throws(
+        () => findUniqueProperties({ a: 1 }, true),
+        TypeError,
+        "Ошибка при передаче булевого значения во втором аргументе"
+    );
+    
+    assert.throws(
+        () => findUniqueProperties(undefined, { a: 1 }),
+        TypeError,
+        "Ошибка при передаче undefined в первом аргументе"
+    );
+});
