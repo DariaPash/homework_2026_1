@@ -33,6 +33,6 @@ const findUniqueProperties = (obj1, obj2) => {
     const keys2 = Object.keys(obj2);
     const uniqueFromFirst = keys1.filter(key => !keys2.includes(key)).map(key => [key, obj1[key]]);
     const uniqueFromSecond = keys2.filter(key => !keys1.includes(key)).map(key => [key, obj2[key]]);
-
+    
     return [...uniqueFromFirst, ...uniqueFromSecond].reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {});
 };
