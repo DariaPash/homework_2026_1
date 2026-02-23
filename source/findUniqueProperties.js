@@ -29,8 +29,8 @@ const findUniqueProperties = (obj1, obj2) => {
         throw new TypeError('Arguments must be objects');
     }
 
-    const keys1 = Object.keys(obj1).filter(key => Object.hasOwn(obj1, key));
-    const keys2 = Object.keys(obj2).filter(key => Object.hasOwn(obj2, key));
+    const keys1 = Object.keys(obj1);
+    const keys2 = Object.keys(obj2);
     const uniqueFromFirst = keys1.filter(key => !keys2.includes(key)).map(key => [key, obj1[key]]);
     const uniqueFromSecond = keys2.filter(key => !keys1.includes(key)).map(key => [key, obj2[key]]);
 
