@@ -1,4 +1,5 @@
 // Web 21 Пасхальная Дарья
+'use strict';
 
 /**
  * Функция, которая находит уникальные свойства в двух объектах
@@ -19,7 +20,7 @@
  * 
  * @returns {Object} 
  */
-const findUniqueProperties = function(obj1, obj2) {
+const findUniqueProperties = (obj1, obj2) => {
     if (obj1 === null || obj2 === null) {
         throw new TypeError('Arguments cannot be null');
     }
@@ -27,22 +28,11 @@ const findUniqueProperties = function(obj1, obj2) {
     if (typeof obj1 !== 'object' || typeof obj2 !== 'object') {
         throw new TypeError('Arguments must be objects');
     }
-    
-    const result = {};
-    
-    for (let key in obj1) {
-        if (Object.prototype.hasOwnProperty.call(obj1, key) && 
-            !Object.prototype.hasOwnProperty.call(obj2, key)) {
-            result[key] = obj1[key];
-        }
-    }
-    
-    for (let key in obj2) {
-        if (Object.prototype.hasOwnProperty.call(obj2, key) && 
-            !Object.prototype.hasOwnProperty.call(obj1, key)) {
-            result[key] = obj2[key];
-        }
-    }
-    
-    return result;
+
+    const keys1 = Object.keys(obj1).filter(key => Object.hasOwn(obj1, key));
+    const keys2 = Object.keys(obj2).filter(key => Object.hasOwn(obj2, key));
+    const uniqueFromFirst = keys1.filter(key => !keys2.includes(key)).map(key => [key, obj1[key]]);
+    const uniqueFromSecond = keys2.filter(key => !keys1.includes(key)).map(key => [key, obj2[key]]);
+
+    return [...uniqueFromFirst, ...uniqueFromSecond].reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {});
 };
